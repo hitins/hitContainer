@@ -1,0 +1,32 @@
+autoload -Uz compinit
+compinit
+zstyle ':completion:*' menu select
+zstyle ':completion::complete:*' gain-privileges 1
+setopt COMPLETE_ALIASES
+
+DISABLE_AUTO_TITLE="true"
+TITLE_PRE="\033]0;"
+TITLE_POST="@$HOST\007"
+
+window_title="$TITLE_PRE${PWD##*/}$TITLE_POST"
+echo -ne "$window_title"
+
+function chpwd () {
+  window_title="$TITLE_PRE${PWD##*/}$TITLE_POST"
+  echo -ne "$window_title"
+}
+
+function set-title(){
+  TITLE="\[\e]2;$*\a\]"
+  echo -e ${TITLE}
+}
+
+if [[ -f "/usr/bin/starship" ]];then
+	eval "$(starship init zsh)" || echo 1
+else
+	#PROMPT=$'\n''%F{magenta}%D{%a %m/%d} %T%f %F{cyan}%l%f %F{red}%n%f@%F{green}%m%f %B%F{blue}%~%f%b '$'\n''%F{yellow}>%f '
+	PROMPT=$'\n''%F{magenta}%D{%a} %T%f %F{red}%n%f@%F{green}%m%f %B%F{blue}%~%f%b '
+	RPROMPT='[%F{yellow}%?%f]'
+fi
+
+alias ls="ls --color=always"

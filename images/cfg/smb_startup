@@ -1,0 +1,7 @@
+#!/bin/sh
+# create config dir if not exist
+[[ -d "/smbd/cloud" ]] || mkdir -p /smbd/cloud
+[[ -d "/smbd/run" ]] || mkdir -m 0750 -p /smbd/run
+[[ -f "/smbd/smb.conf" ]] || cp /etc/smb.conf /smbd/
+
+/usr/sbin/smbd  -F --no-process-group -s /smbd/smb.conf

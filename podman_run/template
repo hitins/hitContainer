@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Default image
+
+
+# New genarations of container
+# name
+
+# volume
+
+# mapped port, host:container
+
+# ENV
+
+
+# Del existed container $NAME 
+podman container ls -a -f "name=^${NAME}$" | grep ${NAME} && (podman rm -f --time 1 ${NAME}  && sleep 1 || exit 1) || echo "No existed container $NAME"
+# New container, option "-v /etc/localtime:/etc/localtime:ro"
+podman run -d --restart on-failure --stop-timeout 3

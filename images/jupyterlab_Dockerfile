@@ -1,0 +1,24 @@
+FROM docker.io/ttool/python3:latest as p1
+
+ARG DEBIAN_FRONTEND=noninteractive 
+ENV HOST=jupyterlab
+RUN set -ex && python3 -m pip install --no-cache-dir --upgrade pip; \
+    pip3 install --no-cache-dir jupyterlab ipywidgets jupyterlab-language-pack-zh-CN; \
+    find /usr/local/python -depth \( \
+    \( -type d -a \( -name test -o -name tests -o -name idle_test -o -name __pycache__ \) \) \
+    -o \( -type f -a \( -name '*.pyc' -o -name '*.pyo' -o -name '*.a' \) \) \
+    \) -exec rm -rf '{}' + 
+USER root
+RUN set -ex && apt -y update;apt -y --no-install-recommends dist-upgrade; \
+    apt install -y --no-install-recommends git zsh vim curl; \
+    apt -y autoremove --purge;apt -y clean;rm -rf /var/lib/apt/lists/* /tmp/* /var/cache/* \
+    && sed -i 's/\/bin\/bash/\/usr\/bin\/zsh/g' /etc/passwd \
+    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime;echo jupyterlab > /etc/hostname \
+    && mkdir -p /usr/local/etc/jupyter
+COPY cfg/jupyter_server_config.json /usr/local/etc/jupyter/
+COPY cfg/zshrc /etc/zsh/
+
+FROM p1
+USER master
+WORKDIR /home/master
+CMD ["jupyter-lab"]

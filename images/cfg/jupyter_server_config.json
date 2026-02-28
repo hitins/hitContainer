@@ -1,0 +1,21 @@
+{
+  "ServerApp": {
+    "jpserver_extensions": {
+      "jupyterlab": true
+    },
+    "root_dir": "/home/master",
+    "base_url": "/",
+    "open_browser": false,
+    "allow_remote_access": true,
+    "ip": "0.0.0.0",
+    "port": 8988,
+    "allow_root": true
+  },
+  "IPKernelApp": {
+    "pylab": "inline",
+    "matplotlib": "inline"
+  },
+  "FileContentsManager": {
+    "delete_to_trash": false
+  }
+}

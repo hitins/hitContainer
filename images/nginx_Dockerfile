@@ -1,0 +1,10 @@
+FROM alpine:latest
+
+RUN apk add nginx openssl gzip nginx-mod-http-headers-more nginx-mod-http-image-filter \
+    nginx-mod-http-js nginx-mod-http-lua nginx-mod-http-set-misc nginx-mod-http-untar \
+    nginx-mod-http-upload nginx-mod-http-zip nginx-mod-rtmp nginx-mod-stream nginx-mod-stream-js; \
+    cd /etc/nginx/http.d/ && rm -rf ./*; \
+    openssl req -newkey rsa:2048 -x509 -days 730 -keyout ssl.key -out ssl.cert -nodes -subj "/"
+COPY cfg/nginx.conf /etc/nginx/
+
+ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]

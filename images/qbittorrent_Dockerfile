@@ -1,0 +1,9 @@
+FROM alpine:latest
+
+RUN apk update;apk --no-cache upgrade;apk add -u --no-cache qbittorrent-nox && adduser -Ds /sbin/nologin qb
+
+USER qb
+RUN (echo y | qbittorrent-nox &) && mkdir -p ~/.config/qBittorrent \
+    && echo -e '\n[LegalNotice]\nAccepted=true\n' >> ~/.config/qBittorrent/qBittorrent.conf
+
+CMD ["qbittorrent-nox"]

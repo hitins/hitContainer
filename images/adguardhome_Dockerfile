@@ -1,0 +1,9 @@
+FROM alpine:latest
+
+RUN apk update && apk --no-cache --upgrade add wget tzdata \
+&& cd /opt && wget https://static.adguard.com/adguardhome/release/AdGuardHome_linux_amd64.tar.gz \
+&& tar xzf AdGuardHome_linux_amd64.tar.gz && rm AdGuardHome_linux_amd64.tar.gz \
+&& mkdir -p /opt/AdGuardHome/work
+
+CMD sh -c '/opt/AdGuardHome/AdGuardHome --no-check-update -c /opt/AdGuardHome/work/AdGuardHome.yaml \
+-h "0.0.0.0" -w /opt/AdGuardHome/work > /opt/adguardhome.log 2>&1'

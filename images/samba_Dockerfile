@@ -1,0 +1,12 @@
+FROM alpine:latest
+
+COPY cfg/smb.conf /etc/smb.conf
+COPY cfg/smb_startup /usr/local/bin/smb_startup
+
+RUN mkdir -m 750 -p /smbd /smbd/cloud; \
+    apk update;apk upgrade;\
+    apk add -u --no-cache tzdata samba-server samba-common-tools; \
+    adduser -HDs /bin/false cloud; \
+    chmod +x /usr/local/bin/smb_startup
+
+CMD ["/usr/local/bin/smb_startup"]
